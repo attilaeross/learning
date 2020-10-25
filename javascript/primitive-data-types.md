@@ -338,22 +338,22 @@ if (x) {
 Creating Boolean objects with an initial value of false
 
 ```js
-var bNoParam = new Boolean();
-var bZero = new Boolean(0);
-var bNull = new Boolean(null);
-var bEmptyString = new Boolean("");
-var bfalse = new Boolean(false);
+const undefinedToBoolean = new Boolean();
+const zeroToBoolean = new Boolean(0);
+const nullToBoolean = new Boolean(null);
+const emptyString = new Boolean("");
+const falseValue = new Boolean(false);
 ```
 
 Creating Boolean objects with an initial value of true
 
 ```js
-var btrue = new Boolean(true);
-var btrueString = new Boolean("true");
-var bfalseString = new Boolean("false");
-var bSuLin = new Boolean("Su Lin");
-var bArrayProto = new Boolean([]);
-var bObjProto = new Boolean({});
+const trueToBoolean = new Boolean(true);
+const trueStringToBoolean = new Boolean("true");
+const falseStringToBoolean = new Boolean("false");
+const SuLinStringToBoolean = new Boolean("Su Lin");
+const ArrayProtoToBoolean = new Boolean([]);
+const ObjProtoToBoolean = new Boolean({});
 ```
 
 ## Undefined
