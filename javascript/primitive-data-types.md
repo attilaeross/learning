@@ -377,7 +377,7 @@ JavaScript Demo: Standard built-in objects - undefined
 
 ```js
 function test(t) {
-  if (t === undefined) {
+  if (typeof t === "undefined") {
     return "Undefined value!";
   }
   return t;
