@@ -61,7 +61,7 @@ table>
 
 ## Providing common styling to columns
 
-HTML has a method of defining styling information for an entire column of data all in one place — the <col> and <colgroup> elements. These exist because it can be a bit annoying and inefficient having to specify styling on columns — you generally have to specify your styling information on every <td> or <th> in the column, or use a complex selector such as :nth-child().
+HTML has a method of defining styling information for an entire column of data all in one place — the `html<col>` and `html<colgroup>` elements. These exist because it can be a bit annoying and inefficient having to specify styling on columns — you generally have to specify your styling information on every `html<td>` or `html<th>` in the column, or use a complex selector such as :nth-child().
 
 ```html
 <table>
@@ -90,7 +90,7 @@ such as captions/summaries and grouping your rows into table head, body and foot
 
 ### Adding a caption to table with <caption>
 
-We can give your table a caption by putting it inside a <caption> element and nesting that inside the <table> element. You should put it just below the opening <table> tag.
+We can give your table a caption by putting it inside a `html<caption>` element and nesting that inside the `html<table>` element. You should put it just below the opening `html<table>` tag.
 
 ```html
 <table>
@@ -102,19 +102,19 @@ We can give your table a caption by putting it inside a <caption> element and ne
 </table>
 ```
 
-Note: The summary attribute can also be used on the <table> element to provide a description — this is also read out by screenreaders. We'd recommend using the <caption> element instead, however, as summary is deprecated by the HTML5 spec, and can't be read by sighted users (it doesn't appear on the page.)
+Note: The summary attribute can also be used on the `html<table>` element to provide a description — this is also read out by screenreaders. We'd recommend using the `html<caption>` element instead, however, as summary is deprecated by the HTML5 spec, and can't be read by sighted users (it doesn't appear on the page.)
 
 ### Adding structure with <thead>, <tfoot>, and <tbody>
 
-As our tables get a bit more complex in structure, it is useful to give them more structural definition. One clear way to do this is by using <thead>, <tfoot>, and <tbody>, which allow you to mark up a header, footer, and body section for the table.
+As our tables get a bit more complex in structure, it is useful to give them more structural definition. One clear way to do this is by using `html<thead>`, `html<tfoot>`, and `html<tbody>`, which allow you to mark up a header, footer, and body section for the table.
 
 They are however very useful for styling and layout not for readability nor accessibility.
 
-The <thead> element must wrap the part of the table that is the header — this is usually the first row containing the column headings, but this is not necessarily always the case. If you are using <col>/<colgroup> element, the table header should come just below those.
+The `html <thead>` element must wrap the part of the table that is the header — this is usually the first row containing the column headings, but this is not necessarily always the case. If you are using `html<col>`/`html<colgroup>` element, the table header should come just below those.
 
-The <tfoot> element needs to wrap the part of the table that is the footer — this might be a final row with items in the previous rows summed, for example. You can include the table footer right at the bottom of the table as you'd expect, or just below the table header (the browser will still render it at the bottom of the table).\
+The `html<tfoot>` element needs to wrap the part of the table that is the footer — this might be a final row with items in the previous rows summed, for example. You can include the table footer right at the bottom of the table as you'd expect, or just below the table header (the browser will still render it at the bottom of the table).\
 
-The <tbody> element needs to wrap the other parts of the table content that aren't in the table header or footer. It will appear below the table header or sometimes footer, depending on how you decided to structure it.
+The `html<tbody>` element needs to wrap the other parts of the table content that aren't in the table header or footer. It will appear below the table header or sometimes footer, depending on how you decided to structure it.
 
 ```html
 <table>
@@ -169,7 +169,7 @@ The <tbody> element needs to wrap the other parts of the table content that aren
 
 ### Nesting Tables
 
-It is possible to nest a table inside another one, as long as you include the complete structure, including the <table> element.
+It is possible to nest a table inside another one, as long as you include the complete structure, including the `html<table>` element.
 
 The following markup shows a simple nested table:
 
@@ -203,7 +203,7 @@ The following markup shows a simple nested table:
 
 ### The scope attribute
 
-the scope attribute, which can be added to the <th> element to tell screenreaders exactly what cells the header is a header for — is it a header for the row it is in, or the column, for example?
+the scope attribute, which can be added to the `html<th>` element to tell screenreaders exactly what cells the header is a header for — is it a header for the row it is in, or the column, for example?
 
 ```html
 <th scope="col">Purchase</th>
@@ -292,8 +292,8 @@ The id and headers attributes
 
 An alternative to using the scope attribute is to use id and headers attributes to create associations between headers and cells. The way they are used is as follows:
 
-You add a unique id to each <th> element.
-You add a headers attribute to each <td> element. Each headers attribute has to contain a list of the ids of all the <th> elements that act as a header for that cell, separated by spaces.
+You add a unique id to each `html<th> `element.
+You add a headers attribute to each `html<td>` element. Each headers attribute has to contain a list of the ids of all the `html<th>` elements that act as a header for that cell, separated by spaces.
 
 ```html
 <thead>
