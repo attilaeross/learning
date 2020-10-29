@@ -1,4 +1,4 @@
-# How git version control works
+# How version control works
 
 https://git-scm.com/
 
