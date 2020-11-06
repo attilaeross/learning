@@ -29,6 +29,8 @@ form select {
   padding: 0.5rem;
   font-size: 15px;
   background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .todo-container,
@@ -52,6 +54,7 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.5s ease;
 }
 .todo li {
   flex: 1;
@@ -61,7 +64,7 @@ h2 {
 .complete-button {
   background: red;
   color: white;
-  padding: 0.5rem;
+  padding: 1rem;
   cursor: pointer;
   font-size: 1rem;
 }
@@ -70,4 +73,13 @@ h2 {
 }
 .todo-item {
   padding: 0rem 0.5rem;
+}
+.fa-trash,
+.fa-check {
+  pointer-events: none;
+}
+
+.complete {
+  text-decoration: line-through;
+  opacity: 0.5;
 }
