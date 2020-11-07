@@ -70,15 +70,21 @@ function addTodo(event) {
 function checkEditSaveDelete(e) {
     const item =e.target;
     const todo = item.parentElement;
+    const editButton = todo.childNodes[2];
 
     //set/mark Todo DONE (cant be edited) / UNDONE (can be edited)
     if(item.classList[0] === 'complete-button'){
-        todo.classList.toggle('complete');
-        
-        if(todo.classList.contains('complete')){
-            item.parentElement.childNodes[2].disabled = true;
+        console.log(todo.childNodes[2]);
+        if(editButton.childNodes[0].classList.value == 'fas fa-edit'){
+            todo.classList.toggle('complete');
+            
+            if(todo.classList.contains('complete')){
+                editButton.disabled = true;
+            }else {
+                editButton.disabled = false;
+            }
         }else {
-            item.parentElement.childNodes[2].disabled = false;
+            alert("you did not save the todo after editing....first press save button...than you can continue marking it done...")
         }
     }
 
