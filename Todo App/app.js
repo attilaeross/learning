@@ -10,7 +10,7 @@ const changeUserLabel = document.querySelector('label');
 
 //Event Listeners
 todoButton.addEventListener('click', addTodo);
-todoList.addEventListener('click', deleteCheck);
+todoList.addEventListener('click', checkEditSaveDelete);
 myButton.addEventListener('click', setUserName);
 filterOption.addEventListener('click', filterTodo);
 
@@ -41,7 +41,6 @@ function addTodo(event) {
 
     newTodo.classList.add('todo-item');
     todoDiv.appendChild(newTodo);
-   
 
     //check mark button
     const completedButton = document.createElement('button');
@@ -49,6 +48,12 @@ function addTodo(event) {
     completedButton.classList.add('complete-button');
     todoDiv.appendChild(completedButton);
     
+    // edit button
+    const editButton = document.createElement('button');
+    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+    editButton.classList.add('edit-button');
+    todoDiv.appendChild(editButton);
+
     // delete button
     const deleteButton = document.createElement('button');
     deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
@@ -61,21 +66,34 @@ function addTodo(event) {
     todoInput.value = "";
 }
 
-//Deleting Items from list
-function deleteCheck(e) {
+//Complete / Edit / Delete
+function checkEditSaveDelete(e) {
     const item =e.target;
+    const todo = item.parentElement;
     //console.log(e.target);
-
-    //Delete Todo
-    if(item.classList[0] === 'delete-button'){
-        const todo = item.parentElement;
-        todo.remove();
-    }
 
     //Mark Todo DONE / UNDONE
     if(item.classList[0] === 'complete-button'){
-        const todo = item.parentElement;
         todo.classList.toggle('complete');
+    }
+
+    //Edit todo description
+    if(item.classList[0] === 'edit-button'){
+        console.log(item);
+        if(item.innerHTML == '<i class="fas fa-edit"></i>'){
+            todo.contentEditable = true;
+            item.innerHTML = '<i class="fas fa-save"></i>';
+            item.style.background = 'rgb(0, 102, 255)';
+        }else {
+            todo.contentEditable = false;
+            item.innerHTML = '<i class="fas fa-edit"></i>';
+            item.style.background = 'rgb(251, 255, 0)';
+        }
+    } 
+
+    //Delete Todo
+    if(item.classList[0] === 'delete-button'){
+        todo.remove();
     }
 }
 
@@ -108,8 +126,6 @@ function filterTodo(e){
     })
 
 }
-
-
 
 //initialization code, as it structures the todo list when it first loads
 if(!localStorage.getItem('name')) {
