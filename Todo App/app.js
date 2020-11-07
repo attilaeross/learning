@@ -72,14 +72,20 @@ function checkEditSaveDelete(e) {
     const todo = item.parentElement;
     //console.log(e.target);
 
-    //Mark Todo DONE / UNDONE
+    //set/mark Todo DONE (cant be edited) / UNDONE (can be edited)
     if(item.classList[0] === 'complete-button'){
         todo.classList.toggle('complete');
+        console.log(todo.classList.contains('complete'));
+        if(todo.classList.contains('complete')){
+            item.parentElement.childNodes[2].disabled = true;
+        }else {
+            item.parentElement.childNodes[2].disabled = false;
+        }
     }
 
     //Edit todo description
     if(item.classList[0] === 'edit-button'){
-        console.log(item);
+        item.parentElement.childNodes[2].disabled = false;
         if(item.innerHTML == '<i class="fas fa-edit"></i>'){
             todo.contentEditable = true;
             item.innerHTML = '<i class="fas fa-save"></i>';
