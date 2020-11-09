@@ -14,7 +14,6 @@ todoList.addEventListener('click', checkEditSaveDelete);
 myButton.addEventListener('click', setUserName);
 filterOption.addEventListener('click', filterTodo);
 
-
 //Functions
 
 //personalize app by adding name to the Todo List Header
@@ -23,7 +22,7 @@ function setUserName() {
     if(!myName) {
         setUserName();
     } else {
-    localStorage.setItem('name', myName);
+    localStorage.setItem('userTodos.name', myName);
     todoListHeader.innerHTML = "Todo list for " + myName;
     changeUserLabel.innerText = "* not " +myName+ "/ change user -->"
     }
@@ -38,6 +37,7 @@ function addTodo(event) {
 
     const newTodo = document.createElement('li');
     newTodo.innerText = todoInput.value;
+    saveLocalTodo(todoInput.value);
 
     newTodo.classList.add('todo-item');
     todoDiv.appendChild(newTodo);
@@ -67,14 +67,14 @@ function addTodo(event) {
 }
 
 //Complete / Edit / Delete
-function checkEditSaveDelete(e) {
-    const item =e.target;
+function checkEditSaveDelete(event) {
+    const item =event.target;
     const todo = item.parentElement;
     const editButton = todo.childNodes[2];
+    console.log(item, todo.childNodes)
 
     //set/mark Todo DONE (cant be edited) / UNDONE (can be edited)
     if(item.classList[0] === 'complete-button'){
-        console.log(todo.childNodes[2]);
         if(editButton.childNodes[0].classList.value == 'fas fa-edit'){
             todo.classList.toggle('complete');
             
@@ -134,14 +134,77 @@ function filterTodo(e){
             break;
         }
     })
-
 }
 
+function saveLocalTodo(todo){
+    let todos;
+    //Check if I already have Todos in my local storage
+    if(localStorage.getItem('userTodos.todos') === null){
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem('userTodos.todos'));
+    }
+    todos.push(todo);
+    localStorage.setItem('userTodos.todos', JSON.stringify(todos));
+}
+
+function loadSavedTodos(){
+    let todos;
+    //Check if I already have Todos in my local storage
+    if(localStorage.getItem('userTodos.todos') === null){
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem('userTodos.todos'));
+    }
+    todos.forEach(function(todo){
+        //prepare the structure by preparing the div and li
+        const todoDiv = document.createElement('div');
+        todoDiv.classList.add("todo");
+
+        const newTodo = document.createElement('li');
+        newTodo.innerText = todo;
+
+        newTodo.classList.add('todo-item');
+        todoDiv.appendChild(newTodo);
+
+        //check mark button
+        const completedButton = document.createElement('button');
+        completedButton.innerHTML = '<i class="fas fa-check"></i>';
+        completedButton.classList.add('complete-button');
+        todoDiv.appendChild(completedButton);
+    
+        // edit button
+        const editButton = document.createElement('button');
+        editButton.innerHTML = '<i class="fas fa-edit"></i>';
+        editButton.classList.add('edit-button');
+        todoDiv.appendChild(editButton);
+
+        // delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteButton.classList.add('delete-button');
+        todoDiv.appendChild(deleteButton);
+
+        //append to the list
+        todoList.appendChild(todoDiv);
+    })
+    
+}
+
+/* how should user and todos look in local storage....
+later we will need to create  userTodos dynamically for each user....check name and load todos accordingly
+let userTodo = {
+    name : myName,
+    todos : [todo1,todo2....,todoN],
+}
+*/
+
 //initialization code, as it structures the todo list when it first loads
-if(!localStorage.getItem('name')) {
+if(!localStorage.getItem('userTodos.name')) {
     setUserName();
   } else {
-    let storedName = localStorage.getItem('name');
+    let storedName = localStorage.getItem('userTodos.name');
     todoListHeader.textContent = "Todo list for " + storedName;
     changeUserLabel.innerText = "* not " +storedName+ "/ change user -->"
+    loadSavedTodos();
   }
