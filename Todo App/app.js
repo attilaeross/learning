@@ -4,27 +4,25 @@ const todoButton = document.querySelector('.todo-add-button');
 const todoList = document.querySelector('.todo-list');
 const filterOption = document.querySelector('.filter-todo')
 
-const myButton = document.querySelector('.change-user-button');
+const changeUserButton = document.querySelector('.change-user-button');
 const todoListHeader = document.querySelector('h2');
-const changeUserLabel = document.querySelector('label');
 
 //Event Listeners
 todoButton.addEventListener('click', addTodo);
 todoList.addEventListener('click', checkEditSaveDelete);
-myButton.addEventListener('click', setUserName);
+changeUserButton.addEventListener('click', initialization);
 filterOption.addEventListener('click', filterTodo);
 
 //Functions
 
-//personalize app by adding name to the Todo List Header
-function setUserName() {
-    let myName = prompt('Please enter your name.');
-    if(!myName) {
-        setUserName();
+function initialization() {
+    const userName = prompt('Please enter your name...Single name please...for now');
+    if(!userName) {
+        initialization();
     } else {
-    localStorage.setItem('userTodos.name', myName);
-    todoListHeader.innerHTML = "Todo list for " + myName;
-    changeUserLabel.innerText = "* not " +myName+ "/ change user -->"
+        activeUser = userName.toLowerCase(); 
+        loadSavedTodos();
+        todoListHeader.innerHTML = "Todo list for " + userName;
     }
 }
 
@@ -110,7 +108,6 @@ function checkEditSaveDelete(event) {
 //Filtering Todos
 function filterTodo(e){
     const todos = todoList.childNodes;
-    //console.log(todos);
     todos.forEach(function(todo){
         console.log(todo);
         switch(e.target.value){
@@ -139,22 +136,25 @@ function filterTodo(e){
 function saveLocalTodo(todo){
     let todos;
     //Check if I already have Todos in my local storage
-    if(localStorage.getItem('userTodos.todos') === null){
+    if(localStorage.getItem(`${activeUser}Todos`) === null){
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('userTodos.todos'));
+        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
     }
     todos.push(todo);
-    localStorage.setItem('userTodos.todos', JSON.stringify(todos));
+    localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
 
 function loadSavedTodos(){
     let todos;
-    //Check if I already have Todos in my local storage
-    if(localStorage.getItem('userTodos.todos') === null){
+    //Check if I already have Todos in my local storage for user
+    todoList.childNodes.forEach(function(node) {
+        node.remove();
+    });
+    if(localStorage.getItem(`${activeUser}Todos`) === null){
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('userTodos.todos'));
+        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
     }
     todos.forEach(function(todo){
         //prepare the structure by preparing the div and li
@@ -188,23 +188,13 @@ function loadSavedTodos(){
         //append to the list
         todoList.appendChild(todoDiv);
     })
-    
 }
 
 /* how should user and todos look in local storage....
 later we will need to create  userTodos dynamically for each user....check name and load todos accordingly
-let userTodo = {
-    name : myName,
-    todos : [todo1,todo2....,todoN],
-}
+let {user}Todo = [todo1,todo2....,todoN]
 */
 
 //initialization code, as it structures the todo list when it first loads
-if(!localStorage.getItem('userTodos.name')) {
-    setUserName();
-  } else {
-    let storedName = localStorage.getItem('userTodos.name');
-    todoListHeader.textContent = "Todo list for " + storedName;
-    changeUserLabel.innerText = "* not " +storedName+ "/ change user -->"
-    loadSavedTodos();
-  }
+let activeUser;
+initialization();
