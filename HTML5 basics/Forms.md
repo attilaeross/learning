@@ -64,6 +64,41 @@ by default this element is filled with this text
 </textarea>
 ```
 
+#### Types of `<input>` elements
+
+default is always text - when you omit type in your declaration
+
+```html
+<input type="text" id="comment" name="comment" value="I'm a text field" />
+<input type="password" id="pwd" name="pwd" />
+<input type="hidden" id="timestamp" name="timestamp" value="1286705410" />
+<input type="checkbox" id="carrots" name="carrots" value="carrots" checked />
+<input type="radio" id="soup" name="meal" checked />
+<input type="image" alt="Click me!" src="my-img.png" width="80" height="30" />
+<input type="file" name="file" id="file" accept="image/*" multiple />
+<input
+  type="range"
+  name="price"
+  id="price"
+  min="50000"
+  max="500000"
+  step="100"
+  value="250000"
+/>
+<input type="datetime-local" name="datetime" id="datetime" />
+<input type="week" name="week" id="week" />
+<input type="color" name="color" id="color" />
+```
+
+Other text input types, like search, url, and tel, were added with HTML5. Those will be covered in the next tutorial, HTML5 input types.
+
+All basic text controls share some common behaviors:
+
+They can be marked as readonly (the user cannot modify the input value but it is still sent with the rest of the form data) or disabled (the input value can't be modified and is never sent with the rest of the form data).
+They can have a placeholder; this is text that appears inside the text input box that should be used to briefly describe the purpose of the box.
+They can be constrained in size (the physical size of the box) and maxlength (the maximum number of characters that can be entered into the box).
+They can benefit from spell checking (using the spellcheck attribute), if the browser supports it.
+
 ### The `<button>` element
 
 to add a button to allow the user to send, or "submit", their data once they have filled out the form. This is done by using the `<button>` element.
@@ -77,6 +112,46 @@ The `<button>` element also accepts a type attribute — this accepts one of thr
 -A click on a submit button (the default value) sends the form's data to the web page defined by the action attribute of the `<form>` element.
 -A click on a reset button resets all the form widgets to their default value immediately. From a UX point of view, this is considered bad practice, so you should avoid using this type of button unless you really have a good reason to include one.
 -A click on a button button does... nothing! That sounds silly, but it's amazingly useful for building custom buttons — you can define their chosen functionality with JavaScript.
+
+**SUBMIT**
+
+```html
+<button type="submit">This is a <strong>submit button</strong></button>
+
+<input type="submit" value="This is a submit button" />
+```
+
+**RESET**
+
+```html
+<button type="reset">This is a <strong>reset button</strong></button>
+
+<input type="reset" value="This is a reset button" />
+```
+
+**ANONYMOUS**
+
+```html
+<button type="button">This is an <strong>anonymous button</strong></button>
+
+<input type="button" value="This is an anonymous button" />
+```
+
+Buttons always behave the same whether you use a `<button>` element or an `<input>` element. As you can see from the examples, however, `<button>` elements let you use HTML in their content, which is inserted between the opening and closing `<button>` tags. `<input>` elements on the other hand are empty elements; their displayed content is inserted inside the value attribute, and therefore only accepts plain text as content.
+
+### Drop-down controls
+
+#### Select box
+
+```html
+<select id="simple" name="simple">
+  <option>Banana</option>
+  <option selected>Cherry</option>
+  <option>Lemon</option>
+</select>
+```
+
+if required, the default value for the select box can be set using the **selected** attribute on the desired `<option>` element — this option is then preselected when the page loads.
 
 ### The <fieldset> and <legend> elements
 
