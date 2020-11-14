@@ -135,13 +135,7 @@ function filterTodo(e){
 }
 
 function saveLocalTodo(todo){
-    let todos;
-    //Check if I already have Todos in my local storage
-    if(localStorage.getItem(`${activeUser}Todos`) === null){
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
-    }
+    let todos = getStoredTodos();
     todos.push(todo);
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
@@ -152,12 +146,7 @@ function loadSavedTodos(){
             node.remove();
         });
     }
-    let todos;
-    if(localStorage.getItem(`${activeUser}Todos`) === null){
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
-    }
+    let todos = getStoredTodos();
     
     todos.forEach(function(todo){
 
@@ -195,16 +184,20 @@ function loadSavedTodos(){
 }
 
 function removeLocalTodo(todo){
-    let todos;
-    if(localStorage.getItem(`${activeUser}Todos`) === null){
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
-    }
+    let todos = getStoredTodos();
+
     todoIndex = todo.childNodes[0].innerText;
     console.log(todoIndex);
     todos.splice(todos.indexOf(todoIndex), 1 );
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
+}
+
+function getStoredTodos(){
+    if(localStorage.getItem(`${activeUser}Todos`) === null){
+        return todos = [];
+    } else {
+        return todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
+    }
 }
 
 //initialization code, as it structures the todo list when it first loads
