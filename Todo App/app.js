@@ -10,15 +10,15 @@ const todoListHeader = document.querySelector('h2');
 //Event Listeners
 todoButton.addEventListener('click', addTodo);
 todoList.addEventListener('click', checkEditSaveDelete);
-changeUserButton.addEventListener('click', initialization);
+changeUserButton.addEventListener('click', setUser);
 filterOption.addEventListener('click', filterTodo);
 
 //Functions
 
-function initialization() {
+function setUser() {
     const userName = prompt('Please enter your name...Single name please...for now');
     if(!userName) {
-        initialization();
+        setUser();
     } else {
         activeUser = userName.toLowerCase(); 
         loadSavedTodos();
@@ -146,17 +146,20 @@ function saveLocalTodo(todo){
 }
 
 function loadSavedTodos(){
+    while(todoList.childElementCount > 0 ){
+        todoList.childNodes.forEach(function(node){
+            node.remove();
+        });
+    }
     let todos;
-    //Check if I already have Todos in my local storage for user
-    todoList.childNodes.forEach(function(node) {
-        node.remove();
-    });
     if(localStorage.getItem(`${activeUser}Todos`) === null){
         todos = [];
     } else {
         todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
     }
+    
     todos.forEach(function(todo){
+
         //prepare the structure by preparing the div and li
         const todoDiv = document.createElement('div');
         todoDiv.classList.add("todo");
@@ -197,4 +200,4 @@ let {user}Todo = [todo1,todo2....,todoN]
 
 //initialization code, as it structures the todo list when it first loads
 let activeUser;
-initialization();
+setUser();
