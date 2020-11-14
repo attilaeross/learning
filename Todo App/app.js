@@ -1,10 +1,22 @@
 //Getting Elements - selectors
-const todoInput = document.querySelector('.todo-input');
-const todoButton = document.querySelector('.todo-add-button');
+
+// TODO: remove `todo` prefix from class names and variable names
+// the context already tells about the "todo" app and there's no need to repeat the term everywhere in the code
+// removing it will make it a lot easier to read! 
+
+// TODO: try to find better (more descriptive) names for these elements of the UI
+// but try to still maintain the coherence between the variable names and the CSS class names
+
+// TODO: try using more specific selectors e.g. for the todo input and the buttons
+// by using the element type and a class name e.g. "input.todo"
+const todoInput = document.querySelector('input.todo');
+const todoButton = document.querySelector('button.add-todo');
 const todoList = document.querySelector('.todo-list');
 const filterOption = document.querySelector('.filter-todo')
 
 const changeUserButton = document.querySelector('.change-user-button');
+// TODO: better to use a class on the element and use that to select it
+// querySelector returns the first element and that can cause problems if another h2 is added to the HTML
 const todoListHeader = document.querySelector('h2');
 
 //Event Listeners
@@ -14,7 +26,7 @@ changeUserButton.addEventListener('click', setUser);
 filterOption.addEventListener('click', filterTodo);
 
 //Functions
-
+// TODO: try to refactor the event handlers into arrow functions
 function setUser() {
     const userName = prompt('Please enter your name...Single name please...for now');
     if(!userName) {
@@ -35,6 +47,10 @@ function addTodo(event) {
     todoInput.value = "";
 }
 
+// TODO: everything is called "todo" :) this makes reading code quite hard
+// let's use more specific variable names!
+
+// TODO: revise HTML, make it nice and schemantic then adopt JavaScript to the changes
 function buildTodoList(todo){
     //prepare the structure by preparing the div and li
     const todoDiv = document.createElement('div');
@@ -44,10 +60,14 @@ function buildTodoList(todo){
     newTodo.innerText = todo;
 
     newTodo.classList.add('todo-item');
+    // TODO: why put an `li` into a `div` and then append it to the `ul`?
+    // instead: ul -> li -> div, etc
     todoDiv.appendChild(newTodo);
 
     //check mark button
     const completedButton = document.createElement('button');
+    // TODO: create new elements using the DOM API
+    // instead of setting a string value with elements in there in the parent innerHTML
     completedButton.innerHTML = '<i class="fas fa-check"></i>';
     completedButton.classList.add('complete-button');
     todoDiv.appendChild(completedButton);
@@ -65,6 +85,7 @@ function buildTodoList(todo){
     todoDiv.appendChild(deleteButton);
 
     //append to the list
+    // TODO: add the `li` to the `ul` rather than a wrapper div
     todoList.appendChild(todoDiv)
 }
 
@@ -141,18 +162,25 @@ function filterTodo(e){
 function saveLocalTodo(todo){
     let todos = getStoredTodos();
     todos.push(todo);
+    // TODO: where is activeUser referenced?
+    // is there a better way of accessing its value?
+    // hint: avoid globals :)
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
 
 function loadSavedTodos(){
+    // TODO: why do we need a `while` loop when we go through all the child nodes
+    // of the `ul` with `forEach` and invoke `remove` on all of them?
     while(todoList.childElementCount > 0 ){
         todoList.childNodes.forEach(function(node){
             node.remove();
         });
     }
+    // TODO: use const instead of let if possible
     let todos = getStoredTodos();
     
     todos.forEach(function(todo){
+        // TODO: what does the buildTodoList() do? does it have a correct name?
         buildTodoList(todo);
     })
 }
@@ -160,13 +188,17 @@ function loadSavedTodos(){
 function removeStoredTodo(todo){
     let todos = getStoredTodos();
 
+    // TODO: what is the value of `todoIndex`? does it have the correct name?
     todoIndex = todo.childNodes[0].innerText;
+    // TODO: remove console.log
     console.log(todoIndex);
     todos.splice(todos.indexOf(todoIndex), 1 );
+    // TODO: is this a duplicate? how could we make this better?
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
 
 function getStoredTodos(){
+    // TODO: remove duplication of localStorage key
     if(localStorage.getItem(`${activeUser}Todos`) === null){
         return todos = [];
     } else {
@@ -175,5 +207,7 @@ function getStoredTodos(){
 }
 
 //initialization code, as it structures the todo list when it first loads
+// TODO: why do we need a `let` declaration here and how come that it is available
+// in other parts of the code?
 let activeUser;
 setUser();
