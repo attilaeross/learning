@@ -153,6 +153,44 @@ Buttons always behave the same whether you use a `<button>` element or an `<inpu
 
 if required, the default value for the select box can be set using the **selected** attribute on the desired `<option>` element — this option is then preselected when the page loads.
 
+The `<option>` elements can be nested inside `<optgroup>` elements to create visually associated groups of values:
+
+```html
+<select id="groups" name="groups">
+  <optgroup label="fruits">
+    <option>Banana</option>
+    <option selected>Cherry</option>
+    <option>Lemon</option>
+  </optgroup>
+  <optgroup label="vegetables">
+    <option>Carrot</option>
+    <option>Eggplant</option>
+    <option>Potato</option>
+  </optgroup>
+</select>
+```
+
+By default, a select box only lets the user select a single value. By adding the multiple attribute to the <select> element, you can allow users to select several values, by using the default mechanism provided by the operating system (e.g. holding down Cmd/Ctrl and clicking multiple values on desktop).
+
+#### Datalist element - Autocomplete box
+
+The data list is bound to an `<input>` element (e.g. a text or email input type) using the list attribute, the value of which is the id of the data list to bind.
+
+```html
+<label for="myFruit">What's your favorite fruit?</label>
+<input type="text" name="myFruit" id="myFruit" list="mySuggestion" />
+<datalist id="mySuggestion">
+  <option>Apple</option>
+  <option>Banana</option>
+  <option>Blackberry</option>
+  <option>Blueberry</option>
+  <option>Lemon</option>
+  <option>Lychee</option>
+  <option>Peach</option>
+  <option>Pear</option>
+</datalist>
+```
+
 ### The <fieldset> and <legend> elements
 
 ```html
@@ -232,6 +270,22 @@ The above variants increase in effectiveness as you go through them:
 In the first example, the label is not read out at all with the input — you just get "edit text blank", plus the actual labels are read out separately. The multiple `<label>` elements confuse the screenreader.
 In the second example, things are a bit clearer — the label read out along with the input is "name star name edit text required", and the labels are still read out separately. Things are still a bit confusing, but it's a bit better this time because the `<input>` has a label associated with it.
 The third example is best — the actual label is read out all together, and the label read out with the input is "name required edit text".
+
+### Other form features
+
+#### Meters and progress bars
+
+##### Progress bar
+
+```html
+<progress max="100" value="75">75/100</progress>
+```
+
+##### Meter
+
+```html
+<meter min="0" max="100" value="75" low="33" high="66" optimum="50">75</meter>
+```
 
 ## Sending form data to your web server
 
