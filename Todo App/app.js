@@ -101,6 +101,7 @@ function checkEditSaveDelete(event) {
 
     //Delete Todo
     if(item.classList[0] === 'delete-button'){
+        removeLocalTodo(todo);
         todo.remove();
     }
 }
@@ -193,10 +194,18 @@ function loadSavedTodos(){
     })
 }
 
-/* how should user and todos look in local storage....
-later we will need to create  userTodos dynamically for each user....check name and load todos accordingly
-let {user}Todo = [todo1,todo2....,todoN]
-*/
+function removeLocalTodo(todo){
+    let todos;
+    if(localStorage.getItem(`${activeUser}Todos`) === null){
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
+    }
+    todoIndex = todo.childNodes[0].innerText;
+    console.log(todoIndex);
+    todos.splice(todos.indexOf(todoIndex), 1 );
+    localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
+}
 
 //initialization code, as it structures the todo list when it first loads
 let activeUser;
