@@ -29,13 +29,19 @@ function setUser() {
 function addTodo(event) {
 
     event.preventDefault();
+    buildTodoList(todoInput.value);
+    saveLocalTodo(todoInput.value);
+    //clear todo input value;
+    todoInput.value = "";
+}
+
+function buildTodoList(todo){
     //prepare the structure by preparing the div and li
     const todoDiv = document.createElement('div');
     todoDiv.classList.add("todo");
 
     const newTodo = document.createElement('li');
-    newTodo.innerText = todoInput.value;
-    saveLocalTodo(todoInput.value);
+    newTodo.innerText = todo;
 
     newTodo.classList.add('todo-item');
     todoDiv.appendChild(newTodo);
@@ -45,7 +51,7 @@ function addTodo(event) {
     completedButton.innerHTML = '<i class="fas fa-check"></i>';
     completedButton.classList.add('complete-button');
     todoDiv.appendChild(completedButton);
-    
+
     // edit button
     const editButton = document.createElement('button');
     editButton.innerHTML = '<i class="fas fa-edit"></i>';
@@ -59,9 +65,7 @@ function addTodo(event) {
     todoDiv.appendChild(deleteButton);
 
     //append to the list
-    todoList.appendChild(todoDiv);
-    //clear todo input value;
-    todoInput.value = "";
+    todoList.appendChild(todoDiv)
 }
 
 //Complete / Edit / Delete
@@ -101,7 +105,7 @@ function checkEditSaveDelete(event) {
 
     //Delete Todo
     if(item.classList[0] === 'delete-button'){
-        removeLocalTodo(todo);
+        removeStoredTodo(todo);
         todo.remove();
     }
 }
@@ -149,41 +153,11 @@ function loadSavedTodos(){
     let todos = getStoredTodos();
     
     todos.forEach(function(todo){
-
-        //prepare the structure by preparing the div and li
-        const todoDiv = document.createElement('div');
-        todoDiv.classList.add("todo");
-
-        const newTodo = document.createElement('li');
-        newTodo.innerText = todo;
-
-        newTodo.classList.add('todo-item');
-        todoDiv.appendChild(newTodo);
-
-        //check mark button
-        const completedButton = document.createElement('button');
-        completedButton.innerHTML = '<i class="fas fa-check"></i>';
-        completedButton.classList.add('complete-button');
-        todoDiv.appendChild(completedButton);
-    
-        // edit button
-        const editButton = document.createElement('button');
-        editButton.innerHTML = '<i class="fas fa-edit"></i>';
-        editButton.classList.add('edit-button');
-        todoDiv.appendChild(editButton);
-
-        // delete button
-        const deleteButton = document.createElement('button');
-        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
-        deleteButton.classList.add('delete-button');
-        todoDiv.appendChild(deleteButton);
-
-        //append to the list
-        todoList.appendChild(todoDiv);
+        buildTodoList(todo);
     })
 }
 
-function removeLocalTodo(todo){
+function removeStoredTodo(todo){
     let todos = getStoredTodos();
 
     todoIndex = todo.childNodes[0].innerText;
