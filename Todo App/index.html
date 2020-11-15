@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button class="change-user-button" name = "change-user-button"> Change User</button>
+    <button class="change-user">Change User</button>
     <header>
-        <h1> Todo App</h1>
+        <h1 class="header">Todo App</h1>
     </header>
-    
     <form>
-        <input type='text' class = 'todo-input' placeholder="Please enter todo here">
-        <button class = todo-add-button type="submit">
-            <i class="fas fa-calendar-plus"></i>
-        </button>
-        <div class ="select">
-        <select name="condition" class = "filter-todo">
+        <input type="text" class="new-todo" placeholder= 'Please enter todo here'>
+        <button class="add" >Add</button>
+        <div class="select">
+        <select name="condition" class="filter">
             <option value="all">All</option>
             <option value="completed">Completed</option>
             <option value="outstanding">Outstanding</option>
@@ -27,9 +23,9 @@
         </div>
     </form>
 
-    <h2>To Do List for</h2>
-    <div class = todo-container>        
-        <ul class = todo-list></ul>
+    <h2 class= list-header>To Do List for</h2>
+    <div class = "container">        
+        <ul class='list' ></ul>
     </div>
     <script src = 'app.js'></script>
 </body>
