@@ -1,26 +1,18 @@
 //Getting Elements - selectors
 
-// TODO: remove `todo` prefix from class names and variable names
+// TODO: remove `todo` variable names
 // the context already tells about the "todo" app and there's no need to repeat the term everywhere in the code
 // removing it will make it a lot easier to read! 
 
-// TODO: try to find better (more descriptive) names for these elements of the UI
-// but try to still maintain the coherence between the variable names and the CSS class names
-
-// TODO: try using more specific selectors e.g. for the todo input and the buttons
-// by using the element type and a class name e.g. "input.todo"
-const todoInput = document.querySelector('input.todo');
-const todoButton = document.querySelector('button.add-todo');
-const todoList = document.querySelector('.todo-list');
-const filterOption = document.querySelector('.filter-todo')
-
-const changeUserButton = document.querySelector('.change-user-button');
-// TODO: better to use a class on the element and use that to select it
-// querySelector returns the first element and that can cause problems if another h2 is added to the HTML
-const todoListHeader = document.querySelector('h2');
+const textInput = document.querySelector('input.new-todo');
+const addButton = document.querySelector('button.add');
+const todoList = document.querySelector('ul.list');
+const filterOption = document.querySelector('select.filter')
+const changeUserButton = document.querySelector('button.change-user');
+const listHeader = document.querySelector('h2.list-header');
 
 //Event Listeners
-todoButton.addEventListener('click', addTodo);
+addButton.addEventListener('click', addTodo);
 todoList.addEventListener('click', checkEditSaveDelete);
 changeUserButton.addEventListener('click', setUser);
 filterOption.addEventListener('click', filterTodo);
@@ -34,59 +26,53 @@ function setUser() {
     } else {
         activeUser = userName.toLowerCase(); 
         loadSavedTodos();
-        todoListHeader.innerHTML = "Todo list for " + userName;
+        listHeader.innerHTML = "Todo list for " + userName;
     }
 }
 
 function addTodo(event) {
 
     event.preventDefault();
-    buildTodoList(todoInput.value);
-    saveLocalTodo(todoInput.value);
+    buildTodoList(textInput.value);
+    saveLocalTodo(textInput.value);
     //clear todo input value;
-    todoInput.value = "";
+    textInput.value = "";
 }
 
 // TODO: everything is called "todo" :) this makes reading code quite hard
 // let's use more specific variable names!
 
-// TODO: revise HTML, make it nice and schemantic then adopt JavaScript to the changes
 function buildTodoList(todo){
-    //prepare the structure by preparing the div and li
-    const todoDiv = document.createElement('div');
-    todoDiv.classList.add("todo");
-
+    //prepare the structure
     const newTodo = document.createElement('li');
-    newTodo.innerText = todo;
-
     newTodo.classList.add('todo-item');
-    // TODO: why put an `li` into a `div` and then append it to the `ul`?
-    // instead: ul -> li -> div, etc
-    todoDiv.appendChild(newTodo);
+
+    //Add Todo text element 
+    const textElement = document.createElement('div');
+    textElement.classList.add('todo-text');
+    textElement.innerHTML = todo;
+    newTodo.appendChild(textElement);
 
     //check mark button
     const completedButton = document.createElement('button');
-    // TODO: create new elements using the DOM API
-    // instead of setting a string value with elements in there in the parent innerHTML
-    completedButton.innerHTML = '<i class="fas fa-check"></i>';
+    completedButton.innerHTML = 'MARK';
     completedButton.classList.add('complete-button');
-    todoDiv.appendChild(completedButton);
+    newTodo.appendChild(completedButton);
 
     // edit button
     const editButton = document.createElement('button');
-    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+    editButton.innerHTML = 'EDIT';
     editButton.classList.add('edit-button');
-    todoDiv.appendChild(editButton);
+    newTodo.appendChild(editButton);
 
     // delete button
     const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+    deleteButton.innerHTML = 'DELETE';
     deleteButton.classList.add('delete-button');
-    todoDiv.appendChild(deleteButton);
+    newTodo.appendChild(deleteButton);
 
     //append to the list
-    // TODO: add the `li` to the `ul` rather than a wrapper div
-    todoList.appendChild(todoDiv)
+    todoList.appendChild(newTodo);
 }
 
 //Complete / Edit / Delete
