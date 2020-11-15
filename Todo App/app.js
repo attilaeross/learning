@@ -1,22 +1,14 @@
 //Getting Elements - selectors
 
-// TODO: remove `todo` prefix from class names and variable names
+// TODO: remove `todo` variable names
 // the context already tells about the "todo" app and there's no need to repeat the term everywhere in the code
 // removing it will make it a lot easier to read! 
 
-// TODO: try to find better (more descriptive) names for these elements of the UI
-// but try to still maintain the coherence between the variable names and the CSS class names
-
-// TODO: try using more specific selectors e.g. for the todo input and the buttons
-// by using the element type and a class name e.g. "input.todo"
 const textInput = document.querySelector('input.new-todo');
 const addButton = document.querySelector('button.add');
 const todoList = document.querySelector('ul.list');
 const filterOption = document.querySelector('select.filter')
 const changeUserButton = document.querySelector('button.change-user');
-
-// TODO: better to use a class on the element and use that to select it
-// querySelector returns the first element and that can cause problems if another h2 is added to the HTML
 const listHeader = document.querySelector('h2.list-header');
 
 //Event Listeners
@@ -50,7 +42,6 @@ function addTodo(event) {
 // TODO: everything is called "todo" :) this makes reading code quite hard
 // let's use more specific variable names!
 
-// TODO: revise HTML, make it nice and semantic then adopt JavaScript to the changes
 function buildTodoList(todo){
     //prepare the structure
     const newTodo = document.createElement('li');
@@ -65,8 +56,6 @@ function buildTodoList(todo){
 
     //check mark button
     const completedButton = document.createElement('button');
-    // TODO: create new elements using the DOM API
-    // instead of setting a string value with elements in there in the parent innerHTML
     completedButton.innerHTML = 'MARK';
     completedButton.classList.add('complete-button');
     newTodo.appendChild(completedButton);
@@ -84,8 +73,6 @@ function buildTodoList(todo){
     newTodo.appendChild(deleteButton);
 
     //append to the list
-    // TODO: add the `li` to the `ul` rather than a wrapper div
-    //newTodo.appendChild(todoDiv)
     todoList.appendChild(newTodo);
 }
 
