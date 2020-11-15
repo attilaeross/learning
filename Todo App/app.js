@@ -45,14 +45,13 @@ function addTodo(event) {
 function buildTodoList(todo){
     //prepare the structure
     const newTodo = document.createElement('li');
-    newTodo.innerText = todo;
-
     newTodo.classList.add('todo-item');
-    // TODO: why put an `li` into a `div` and then append it to the `ul`?
-    // instead: ul -> li -> div, etc
 
-    //const todoDiv = document.createElement('div');
-    //todoDiv.classList.add("todo-controls");
+    //Add Todo text element 
+    const textElement = document.createElement('div');
+    textElement.classList.add('todo-text');
+    textElement.innerHTML = todo;
+    newTodo.appendChild(textElement);
 
     //check mark button
     const completedButton = document.createElement('button');
