@@ -31,10 +31,10 @@ function setUser() {
 }
 
 function addTodo(event) {
-
     event.preventDefault();
-    buildTodoList(textInput.value);
-    saveLocalTodo(textInput.value);
+    const todo = textInput.value;
+    addToList(todo);
+    addToLocalStorage(todo);
     //clear todo input value;
     textInput.value = "";
 }
@@ -42,7 +42,7 @@ function addTodo(event) {
 // TODO: everything is called "todo" :) this makes reading code quite hard
 // let's use more specific variable names!
 
-function buildTodoList(todo){
+function addToList(todo){
     //prepare the structure
     const newTodo = document.createElement('li');
     newTodo.classList.add('todo-item');
@@ -145,7 +145,7 @@ function filterTodo(e){
     })
 }
 
-function saveLocalTodo(todo){
+function addToLocalStorage(todo){
     let todos = getStoredTodos();
     todos.push(todo);
     // TODO: where is activeUser referenced?
@@ -166,8 +166,7 @@ function loadSavedTodos(){
     let todos = getStoredTodos();
     
     todos.forEach(function(todo){
-        // TODO: what does the buildTodoList() do? does it have a correct name?
-        buildTodoList(todo);
+        addToList(todo);
     })
 }
 
