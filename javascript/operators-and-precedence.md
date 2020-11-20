@@ -183,3 +183,139 @@ const x, y, z;
 x = (y = 5, z = 6); // Returns 6 in console
 console.log(x); // 6 (right-most)
 ```
+
+Note that the comma operators in assignments may appear not to have the normal effect of comma operators because they don't exist within an expression. In the above example, a is set to the value of b = 3 (which is 3), but the c = 4 expression still evaluates and its result returned to console (i.e., 4). This is due to operator precedence and associativity.
+
+## Conditional (ternary) operator
+
+syntax --> condition ? exprIfTrue : exprIfFalse
+
+```js
+function getFee(isMember) {
+  return (isMember ? '$2.00' : '$10.00');
+}
+
+console.log(getFee(true));
+// expected output: "$2.00"
+
+console.log(getFee(false));
+// expected output: "$10.00"
+
+console.log(getFee(null));
+// expected output: "$10.00"
+```
+
+Handling null values
+
+```js
+let greeting = person => {
+    let name = person ? person.name : `stranger`
+    return `Howdy, ${name}`
+}
+
+console.log(greeting({name: `Alice`}));  // "Howdy, Alice"
+console.log(greeting(null));             // "Howdy, stranger"
+```
+
+Conditional chains
+
+```js
+function example(…) {
+    return condition1 ? value1
+         : condition2 ? value2
+         : condition3 ? value3
+         : value4;
+}
+
+// Equivalent to:
+
+function example(…) {
+    if (condition1) { return value1; }
+    else if (condition2) { return value2; }
+    else if (condition3) { return value3; }
+    else { return value4; }
+}
+```
+
+## Decrement (--)
+
+```js
+let x = 3;
+const y = x--; // If used postfix, with operator after operand (for example, x--), the decrement operator decrements and returns the value before decrementing
+
+console.log(`x:${x}, y:${y}`);
+// expected output: "x:2, y:3"
+
+let a = 3;
+const b = --a; //If used prefix, with operator before operand (for example, --a), the decrement operator decrements and returns the value after decrementing.
+
+console.log(`a:${a}, b:${b}`);
+// expected output: "a:2, b:2"
+```
+
+## Destructuring assignment
+
+```js
+let a, b, rest;
+[a, b] = [10, 20];
+
+console.log(a);
+// expected output: 10
+
+console.log(b);
+// expected output: 20
+
+[a, b, ...rest] = [10, 20, 30, 40, 50];
+
+console.log(rest);
+// expected output: Array [30,40,50]
+```
+
+## Division (/)
+
+```js
+console.log(12 / 2);
+// expected output: 6
+
+console.log(3 / 2);
+// expected output: 1.5
+
+console.log(6 / '3');
+// expected output: 2
+
+console.log(2 / 0);
+// expected output: Infinity
+```
+
+## Division assignment (/=)
+
+```js
+let a = 3;
+
+console.log(a /= 2);
+// expected output: 1.5
+
+console.log(a /= 0);
+// expected output: Infinity
+
+console.log(a /= 'hello');
+// expected output: NaN
+```
+
+## Equality (==)
+
+The equality operator (==) checks whether its two operands are equal, returning a Boolean result. Unlike the strict equality operator, it attempts to convert and compare operands that are of different types.
+
+```js
+console.log(1 == 1);
+// expected output: true
+
+console.log('hello' == 'hello');
+// expected output: true
+
+console.log('1' ==  1);
+// expected output: true
+
+console.log(0 == false);
+// expected output: true
+```
