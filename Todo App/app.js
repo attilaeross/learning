@@ -5,6 +5,7 @@
 // removing it will make it a lot easier to read! 
 
 const textInput = document.querySelector('input.new-todo');
+
 const addButton = document.querySelector('button.add');
 const todoList = document.querySelector('ul.list');
 const filterOption = document.querySelector('select.filter')
@@ -12,10 +13,11 @@ const changeUserButton = document.querySelector('button.change-user');
 const listHeader = document.querySelector('h2.list-header');
 
 //Event Listeners
+document.addEventListener('DOMContentLoaded', setUser);
 addButton.addEventListener('click', addTodo);
 todoList.addEventListener('click', checkEditSaveDelete);
 changeUserButton.addEventListener('click', setUser);
-filterOption.addEventListener('click', filterTodo);
+filterOption.addEventListener('click', filterList);
 
 //Functions
 // TODO: try to refactor the event handlers into arrow functions
@@ -24,8 +26,8 @@ function setUser() {
     if(!userName) {
         setUser();
     } else {
-        activeUser = userName.toLowerCase(); 
-        loadSavedTodos();
+        const key = userName.toLowerCase(); 
+        loadSavedList(key);
         listHeader.innerHTML = "Todo list for " + userName;
     }
 }
@@ -77,14 +79,12 @@ function addToList(todo){
 
 //Complete / Edit / Delete
 function checkEditSaveDelete(event) {
-    const item =event.target;
+    console.log(event.target.parentElement);
+    const item = event.target;
     const todo = item.parentElement;
-    const editButton = todo.childNodes[2];
-    console.log(item, todo.childNodes)
 
-    //set/mark Todo DONE (cant be edited) / UNDONE (can be edited)
+    //set/mark Todo DONE / UNDONE
     if(item.classList[0] === 'complete-button'){
-        if(editButton.childNodes[0].classList.value == 'fas fa-edit'){
             todo.classList.toggle('complete');
             
             if(todo.classList.contains('complete')){
@@ -92,21 +92,18 @@ function checkEditSaveDelete(event) {
             }else {
                 editButton.disabled = false;
             }
-        }else {
-            alert("you did not save the todo after editing....first press save button...than you can continue marking it done...")
         }
-    }
 
     //Edit todo description
-    if(item.classList[0] === 'edit-button' && !todo.classList.contains('complete')){
-        if(item.innerHTML == '<i class="fas fa-edit"></i>'){
+    if(item.classList[0] === 'edit-button'){
+        if(item.innerHTML == "Edit"){
             todo.contentEditable = true;
-            item.innerHTML = '<i class="fas fa-save"></i>';
-            item.style.background = 'rgb(0, 102, 255)';
+            item.innerHTML = 'Save';
+            //item.style.background = 'rgb(0, 102, 255)';
         }else {
             todo.contentEditable = false;
-            item.innerHTML = '<i class="fas fa-edit"></i>';
-            item.style.background = 'rgb(251, 255, 0)';
+            item.innerHTML = 'Edit';
+            //item.style.background = 'rgb(251, 255, 0)';
         }
     } 
 
@@ -118,7 +115,7 @@ function checkEditSaveDelete(event) {
 }
 
 //Filtering Todos
-function filterTodo(e){
+function filterList(e){
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
         console.log(todo);
@@ -154,7 +151,7 @@ function addToLocalStorage(todo){
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
 
-function loadSavedTodos(){
+function loadSavedList(userName){
     // TODO: why do we need a `while` loop when we go through all the child nodes
     // of the `ul` with `forEach` and invoke `remove` on all of them?
     while(todoList.childElementCount > 0 ){
@@ -163,7 +160,7 @@ function loadSavedTodos(){
         });
     }
     // TODO: use const instead of let if possible
-    let todos = getStoredTodos();
+    let todos = getStoredTodos(userName);
     
     todos.forEach(function(todo){
         addToList(todo);
@@ -182,17 +179,11 @@ function removeStoredTodo(todo){
     localStorage.setItem(`${activeUser}Todos`, JSON.stringify(todos));
 }
 
-function getStoredTodos(){
+function getStoredTodos(userName){
     // TODO: remove duplication of localStorage key
-    if(localStorage.getItem(`${activeUser}Todos`) === null){
+    if(localStorage.getItem(`${userName}Todos`) === null){
         return todos = [];
     } else {
-        return todos = JSON.parse(localStorage.getItem(`${activeUser}Todos`));
+        return todos = JSON.parse(localStorage.getItem(`${userName}Todos`));
     }
 }
-
-//initialization code, as it structures the todo list when it first loads
-// TODO: why do we need a `let` declaration here and how come that it is available
-// in other parts of the code?
-let activeUser;
-setUser();
