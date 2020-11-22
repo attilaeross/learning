@@ -14,7 +14,7 @@ const listHeader = document.querySelector('h2.list-header');
 
 //Event Listeners
 document.addEventListener('DOMContentLoaded', setUser);
-addButton.addEventListener('click', (event) => {
+addButton.addEventListener('click', event => {
     event.preventDefault();
     const todo = textInput.value;
     addToList(todo);
@@ -22,7 +22,7 @@ addButton.addEventListener('click', (event) => {
     //clear todo input value;
     textInput.value = "";
 });
-todoList.addEventListener('click', (event) => {
+todoList.addEventListener('click', event => {
     console.log(event.target.parentElement);
     const item = event.target;
     const todo = item.parentElement;
@@ -58,7 +58,7 @@ todoList.addEventListener('click', (event) => {
     }
 });
 changeUserButton.addEventListener('click', setUser);
-filterOption.addEventListener('click', (event) => {
+filterOption.addEventListener('click', event => {
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
         console.log(todo);
