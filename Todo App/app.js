@@ -14,13 +14,78 @@ const listHeader = document.querySelector('h2.list-header');
 
 //Event Listeners
 document.addEventListener('DOMContentLoaded', setUser);
-addButton.addEventListener('click', addTodo);
-todoList.addEventListener('click', checkEditSaveDelete);
+addButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    const todo = textInput.value;
+    addToList(todo);
+    addToLocalStorage(todo);
+    //clear todo input value;
+    textInput.value = "";
+});
+todoList.addEventListener('click', (event) => {
+    console.log(event.target.parentElement);
+    const item = event.target;
+    const todo = item.parentElement;
+
+    //set/mark Todo DONE / UNDONE
+    if(item.classList[0] === 'complete-button'){
+            todo.classList.toggle('complete');
+            
+            if(todo.classList.contains('complete')){
+                editButton.disabled = true;
+            }else {
+                editButton.disabled = false;
+            }
+        }
+
+    //Edit todo description
+    if(item.classList[0] === 'edit-button'){
+        if(item.innerHTML == "Edit"){
+            todo.contentEditable = true;
+            item.innerHTML = 'Save';
+            //item.style.background = 'rgb(0, 102, 255)';
+        }else {
+            todo.contentEditable = false;
+            item.innerHTML = 'Edit';
+            //item.style.background = 'rgb(251, 255, 0)';
+        }
+    } 
+
+    //Delete Todo
+    if(item.classList[0] === 'delete-button'){
+        removeStoredTodo(todo);
+        todo.remove();
+    }
+});
 changeUserButton.addEventListener('click', setUser);
-filterOption.addEventListener('click', filterList);
+filterOption.addEventListener('click', (event) => {
+    const todos = todoList.childNodes;
+    todos.forEach(function(todo){
+        console.log(todo);
+        switch(event.target.value){
+            case "all":
+                todo.style.display = 'flex';
+            break;
+            case "completed":
+                if(todo.classList.contains("complete")){
+                    todo.style.display = "flex";
+                }
+                else {
+                    todo.style.display = "none";
+                }
+            break;
+            case "outstanding":
+                if(!todo.classList.contains("complete")){
+                    todo.style.display = "flex" ;
+                }else {
+                    todo.style.display = "none";
+                }
+            break;
+        }
+    })
+});
 
 //Functions
-// TODO: try to refactor the event handlers into arrow functions
 function setUser() {
     const userName = prompt('Please enter your name...Single name please...for now');
     if(!userName) {
@@ -30,15 +95,6 @@ function setUser() {
         loadSavedList(key);
         listHeader.innerHTML = "Todo list for " + userName;
     }
-}
-
-function addTodo(event) {
-    event.preventDefault();
-    const todo = textInput.value;
-    addToList(todo);
-    addToLocalStorage(todo);
-    //clear todo input value;
-    textInput.value = "";
 }
 
 // TODO: everything is called "todo" :) this makes reading code quite hard
@@ -75,71 +131,6 @@ function addToList(todo){
 
     //append to the list
     todoList.appendChild(newTodo);
-}
-
-//Complete / Edit / Delete
-function checkEditSaveDelete(event) {
-    console.log(event.target.parentElement);
-    const item = event.target;
-    const todo = item.parentElement;
-
-    //set/mark Todo DONE / UNDONE
-    if(item.classList[0] === 'complete-button'){
-            todo.classList.toggle('complete');
-            
-            if(todo.classList.contains('complete')){
-                editButton.disabled = true;
-            }else {
-                editButton.disabled = false;
-            }
-        }
-
-    //Edit todo description
-    if(item.classList[0] === 'edit-button'){
-        if(item.innerHTML == "Edit"){
-            todo.contentEditable = true;
-            item.innerHTML = 'Save';
-            //item.style.background = 'rgb(0, 102, 255)';
-        }else {
-            todo.contentEditable = false;
-            item.innerHTML = 'Edit';
-            //item.style.background = 'rgb(251, 255, 0)';
-        }
-    } 
-
-    //Delete Todo
-    if(item.classList[0] === 'delete-button'){
-        removeStoredTodo(todo);
-        todo.remove();
-    }
-}
-
-//Filtering Todos
-function filterList(e){
-    const todos = todoList.childNodes;
-    todos.forEach(function(todo){
-        console.log(todo);
-        switch(e.target.value){
-            case "all":
-                todo.style.display = 'flex';
-            break;
-            case "completed":
-                if(todo.classList.contains("complete")){
-                    todo.style.display = "flex";
-                }
-                else {
-                    todo.style.display = "none";
-                }
-            break;
-            case "outstanding":
-                if(!todo.classList.contains("complete")){
-                    todo.style.display = "flex" ;
-                }else {
-                    todo.style.display = "none";
-                }
-            break;
-        }
-    })
 }
 
 function addToLocalStorage(todo){
