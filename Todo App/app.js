@@ -1,28 +1,23 @@
 //Getting Elements - selectors
 
-// TODO: remove `todo` variable names
-// the context already tells about the "todo" app and there's no need to repeat the term everywhere in the code
-// removing it will make it a lot easier to read! 
-
-const textInput = document.querySelector('input.new-todo');
-
 const addButton = document.querySelector('button.add');
 const todoList = document.querySelector('ul.list');
 const filterOption = document.querySelector('select.filter')
 const changeUserButton = document.querySelector('button.change-user');
 const listHeader = document.querySelector('h2.list-header');
 
-//Functions
+//global variables
 let userKey;
+
+//Functions
 const setUser = () => {
     const userName = prompt('Please enter your name...Single name please...for now');
     if(!userName) {
         setUser();
     } else {
-        userKey = userName.toLowerCase(); 
+        userKey = userName.toLowerCase().trim(); 
         loadSavedList(userKey);
-        listHeader.innerHTML = "Todo list for " + userName;
-        
+        listHeader.innerHTML = "Todo list for " + userName; 
     }
 }
 
@@ -32,17 +27,23 @@ const addToList = (todo) => {
     newTodo.classList.add('todo-item');
 
     //Add Todo text element 
-    const textElement = document.createElement('div');
+    const textElement = document.createElement('p');
     textElement.classList.add('todo-text');
-    textElement.innerHTML = todo;
+    textElement.innerHTML = todo.text;
     newTodo.appendChild(textElement);
 
     //check mark button
     const completedButton = document.createElement('button');
     completedButton.innerHTML = 'Mark';
     completedButton.classList.add('complete-button');
-    newTodo.appendChild(completedButton);
 
+    if(todo.isComplete == false){
+        newTodo.appendChild(completedButton);
+    }
+    else{
+        newTodo.appendChild(completedButton);
+        newTodo.classList.toggle('complete');
+    }
     // edit button
     const editButton = document.createElement('button');
     editButton.innerHTML = 'Edit';
@@ -76,8 +77,8 @@ const loadSavedList = (userName) => {
             node.remove();
         });
     }
-    // TODO: use const instead of let if possible
-    let todos = getStoredTodos(userName);
+    
+    const todos = getStoredTodos(userName);
     
     todos.forEach(function(todo){
         addToList(todo);
@@ -87,12 +88,25 @@ const loadSavedList = (userName) => {
 const removeStoredTodo = (todo) => {
     let todos = getStoredTodos();
 
-    // TODO: what is the value of `todoIndex`? does it have the correct name?
-    todoIndex = todo.childNodes[0].innerText;
-    // TODO: remove console.log
-    console.log(todoIndex);
-    todos.splice(todos.indexOf(todoIndex), 1 );
+    const todoText = todo.childNodes[0].innerText;
+    todos.splice(todos.indexOf(todoText), 1 );
     // TODO: is this a duplicate? how could we make this better?
+    localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
+}
+
+const changeTodoStatusLocalStorage = (todo) => {
+    let todos = getStoredTodos();
+    todoText = todo.childNodes[0].innerText;
+    todos.filter(obj => {
+        if(obj.text === todoText){
+            if(obj.isComplete == true){
+                obj.isComplete = false
+            }
+            else {
+                obj.isComplete = true;
+            }
+        }
+    })
     localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 }
 
@@ -110,26 +124,33 @@ document.addEventListener('DOMContentLoaded', setUser);
 
 addButton.addEventListener('click', event => {
     event.preventDefault();
-    const todo = textInput.value;
+
+    const textInput = document.querySelector('input.new-todo');
+    const todo = {
+        text : textInput.value,
+        isComplete : false,
+    };
     addToList(todo);
+    //update stored todos
+
     addToLocalStorage(todo);
     //clear todo input value;
     textInput.value = "";
 });
 
 todoList.addEventListener('click', event => {
-    console.log(event.target.parentElement);
     const item = event.target;
     const todo = item.parentElement;
 
     //set/mark Todo DONE / UNDONE
-    if(item.classList[0] === 'complete-button'){
+    if(item.classList[0] === 'complete-button'){ 
             todo.classList.toggle('complete');
-            
             if(todo.classList.contains('complete')){
-                editButton.disabled = true;
+                todo.isComplete = true;
+                changeTodoStatusLocalStorage(todo);
             }else {
-                editButton.disabled = false;
+                todo.isComplete = false;
+                changeTodoStatusLocalStorage(todo);
             }
         }
 
@@ -138,11 +159,9 @@ todoList.addEventListener('click', event => {
         if(item.innerHTML == "Edit"){
             todo.contentEditable = true;
             item.innerHTML = 'Save';
-            //item.style.background = 'rgb(0, 102, 255)';
         }else {
             todo.contentEditable = false;
             item.innerHTML = 'Edit';
-            //item.style.background = 'rgb(251, 255, 0)';
         }
     } 
 
