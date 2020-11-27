@@ -6,10 +6,8 @@ const filterOption = document.querySelector('select.filter')
 const changeUserButton = document.querySelector('button.change-user');
 const listHeader = document.querySelector('h2.list-header');
 
-//global variables
-let userKey;
-
 //Functions
+let userKey;
 const setUser = () => {
     const userName = prompt('Please enter your name...Single name please...for now');
     if(!userName) {
@@ -37,19 +35,22 @@ const addToList = (todo) => {
     completedButton.innerHTML = 'Mark';
     completedButton.classList.add('complete-button');
 
-    if(todo.isComplete == false){
-        newTodo.appendChild(completedButton);
-    }
-    else{
-        newTodo.appendChild(completedButton);
+    if(todo.isComplete == true){
         newTodo.classList.toggle('complete');
     }
+    newTodo.appendChild(completedButton);
+
     // edit button
     const editButton = document.createElement('button');
     editButton.innerHTML = 'Edit';
     editButton.classList.add('edit-button');
+    
+    if(todo.isComplete == true){
+        editButton.disabled = true;
+    }
     newTodo.appendChild(editButton);
 
+    
     // delete button
     const deleteButton = document.createElement('button');
     deleteButton.innerHTML = 'Delete';
@@ -94,7 +95,7 @@ const removeStoredTodo = (todo) => {
     localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 }
 
-const changeTodoStatusLocalStorage = (todo) => {
+const changeTodoMarkLocalStorage = (todo) => {
     let todos = getStoredTodos();
     todoText = todo.childNodes[0].innerText;
     todos.filter(obj => {
@@ -109,13 +110,22 @@ const changeTodoStatusLocalStorage = (todo) => {
     })
     localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 }
+const updateTodoTextLocalStorage = (oldText,newText) => {
+    let todos = getStoredTodos();
+    todos.filter(obj => {
+        if(obj.text === oldTodoText){
+            obj.text = newText;
+        }
+    })
+    localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
+}
 
 const getStoredTodos = () => {
-    // TODO: remove duplication of localStorage key
-    if(localStorage.getItem(`${userKey}Todos`) === null){
+    const storageKey = `${userKey}Todos`;
+    if(localStorage.getItem(storageKey) === null){
         return todos = [];
     } else {
-        return todos = JSON.parse(localStorage.getItem(`${userKey}Todos`));
+        return todos = JSON.parse(localStorage.getItem(storageKey));
     }
 }
 
@@ -131,13 +141,12 @@ addButton.addEventListener('click', event => {
         isComplete : false,
     };
     addToList(todo);
-    //update stored todos
-
     addToLocalStorage(todo);
     //clear todo input value;
     textInput.value = "";
 });
 
+let oldTodoText;
 todoList.addEventListener('click', event => {
     const item = event.target;
     const todo = item.parentElement;
@@ -145,23 +154,46 @@ todoList.addEventListener('click', event => {
     //set/mark Todo DONE / UNDONE
     if(item.classList[0] === 'complete-button'){ 
             todo.classList.toggle('complete');
+            editButton = todo.childNodes[2];
+
             if(todo.classList.contains('complete')){
                 todo.isComplete = true;
-                changeTodoStatusLocalStorage(todo);
+                editButton.disabled = true;
+                changeTodoMarkLocalStorage(todo);
             }else {
                 todo.isComplete = false;
-                changeTodoStatusLocalStorage(todo);
+                editButton.disabled = false;
+                changeTodoMarkLocalStorage(todo);
             }
         }
 
     //Edit todo description
     if(item.classList[0] === 'edit-button'){
+        let todoElement = todo.childNodes[0];
         if(item.innerHTML == "Edit"){
-            todo.contentEditable = true;
+            oldTodoText = todoElement.innerText;
+            todoElement.contentEditable = true;
+            todoElement.focus();
             item.innerHTML = 'Save';
-        }else {
-            todo.contentEditable = false;
+
+            //disable all buttons (except Save) until user saves the todo text
+            const buttons = document.getElementsByTagName('button');
+            for (let i = 0; i < buttons.length; i++) {
+                if(buttons[i].innerHTML != 'Save'){
+                    buttons[i].disabled = true;
+                }
+            }
+        } else {
+            todoElement.contentEditable = false;
+            const newTodoText = todoElement.innerText;
             item.innerHTML = 'Edit';
+
+            //enable all buttons after user saved the todo text
+            const buttons = document.getElementsByTagName('button');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = false;
+            }
+            updateTodoTextLocalStorage(oldTodoText,newTodoText);
         }
     } 
 
@@ -177,7 +209,6 @@ changeUserButton.addEventListener('click', setUser);
 filterOption.addEventListener('change', event => {
     const todos = todoList.childNodes;
     todos.forEach(function(todo){
-        console.log(todo);
         switch(event.target.value){
             case "all":
                 todo.style.display = 'flex';
