@@ -37,7 +37,7 @@ const addToList = (todo) => {
   completedButton.innerHTML = "Mark";
   completedButton.classList.add("complete-button");
 
-  if (todo.isComplete == true) {
+  if (todo.isComplete === true) {
     newTodo.classList.toggle("complete");
   }
   newTodo.appendChild(completedButton);
@@ -47,7 +47,7 @@ const addToList = (todo) => {
   editButton.innerHTML = "Edit";
   editButton.classList.add("edit-button");
 
-  if (todo.isComplete == true) {
+  if (todo.isComplete === true) {
     editButton.disabled = true;
   }
   newTodo.appendChild(editButton);
@@ -101,7 +101,7 @@ const changeTodoMarkLocalStorage = (todo) => {
   todoText = todo.childNodes[0].innerText;
   todos.filter((obj) => {
     if (obj.text === todoText) {
-      if (obj.isComplete == true) {
+      if (obj.isComplete === true) {
         obj.isComplete = false;
       } else {
         obj.isComplete = true;
@@ -169,7 +169,7 @@ todoList.addEventListener("click", (event) => {
   // Edit todo description
   if (item.classList[0] === "edit-button") {
     const todoElement = todo.childNodes[0];
-    if (item.innerHTML == "Edit") {
+    if (item.innerHTML === "Edit") {
       oldTodoText = todoElement.innerText;
       todoElement.contentEditable = true;
       todoElement.focus();
@@ -178,7 +178,7 @@ todoList.addEventListener("click", (event) => {
       // disable all buttons (except Save) until user saves the todo text
       const buttons = document.getElementsByTagName("button");
       for (let i = 0; i < buttons.length; i++) {
-        if (buttons[i].innerHTML != "Save") {
+        if (buttons[i].innerHTML !== "Save") {
           buttons[i].disabled = true;
         }
       }
