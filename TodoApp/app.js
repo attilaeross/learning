@@ -189,9 +189,11 @@ todoList.addEventListener("click", (event) => {
 
       // enable all buttons after user saved the todo text
       const buttons = document.getElementsByTagName("button");
-      for (let i = 0; i < buttons.length; i++) {
-        buttons[i].disabled = false;
-      }
+
+      buttons.forEach((button) => {
+        // eslint-disable-next-line no-param-reassign
+        button.disabled = false;
+      });
       updateTodoTextLocalStorage(oldTodoText, newTodoText);
     }
   }
