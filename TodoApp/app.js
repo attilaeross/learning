@@ -111,16 +111,11 @@ const removeStoredTodo = (todo) => {
 const changeTodoMarkLocalStorage = (todo) => {
   const todos = getStoredTodos();
   const todoText = todo.childNodes[0].innerText;
-  todos.filter((obj) => {
-    if (obj.text === todoText) {
-      let { isComplete } = obj;
-      if (isComplete === true) {
-        isComplete = false;
-      } else {
-        isComplete = true;
-      }
-    }
-  });
+  todos
+    .filter((todo) => todo.text === todoText)
+    .forEach((todo) => {
+      todo.isComplete = !todo.isComplete;
+    });
   localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
 
@@ -128,12 +123,13 @@ let oldTodoText;
 todoList.addEventListener("click", (event) => {
   const updateTodoTextLocalStorage = (oldText, newText) => {
     const todos = getStoredTodos();
-    todos.filter((obj) => {
-      let { text } = obj;
-      if (text === oldTodoText) {
-        text = newText;
-      }
-    });
+    todos
+      .filter((todo) => todo.text === oldTodoText)
+      .forEach((todo) => {
+        // eslint-disable-next-line no-param-reassign
+        todo.text = newText;
+      });
+
     localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
   };
 
