@@ -76,6 +76,7 @@ const loadSavedList = (userName) => {
 
 let userKey;
 const setUser = () => {
+  // eslint-disable-next-line no-alert
   const userName = prompt(
     "Please enter your name...Single name please...for now"
   );
