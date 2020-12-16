@@ -7,18 +7,14 @@ const changeUserButton = document.querySelector("button.change-user");
 const listHeader = document.querySelector("h2.list-header");
 
 // Functions
-let userKey;
-const setUser = () => {
-  const userName = prompt(
-    "Please enter your name...Single name please...for now"
-  );
-  if (!userName) {
-    setUser();
-  } else {
-    userKey = userName.toLowerCase().trim();
-    loadSavedList(userKey);
-    listHeader.innerHTML = `Todo list for ${userName}`;
+const getStoredTodos = () => {
+  const storageKey = `${userKey}Todos`;
+  let todos = [];
+  if (localStorage.getItem(storageKey) === null) {
+    return todos;
   }
+  todos = JSON.parse(localStorage.getItem(storageKey));
+  return todos;
 };
 
 const addToList = (todo) => {
@@ -62,25 +58,6 @@ const addToList = (todo) => {
   todoList.appendChild(newTodo);
 };
 
-const getStoredTodos = () => {
-  const storageKey = `${userKey}Todos`;
-  let todos = [];
-  if (localStorage.getItem(storageKey) === null) {
-    return todos;
-  }
-  todos = JSON.parse(localStorage.getItem(storageKey));
-  return todos;
-};
-
-const addToLocalStorage = (todo) => {
-  const todos = getStoredTodos();
-  todos.push(todo);
-  // TODO: where is activeUser referenced?
-  // is there a better way of accessing its value?
-  // hint: avoid globals :)
-  localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
-};
-
 const loadSavedList = (userName) => {
   // TODO: why do we need a `while` loop when we go through all the child nodes
   // of the `ul` with `forEach` and invoke `remove` on all of them?
@@ -95,6 +72,29 @@ const loadSavedList = (userName) => {
   todos.forEach((todo) => {
     addToList(todo);
   });
+};
+
+let userKey;
+const setUser = () => {
+  const userName = prompt(
+    "Please enter your name...Single name please...for now"
+  );
+  if (!userName) {
+    setUser();
+  } else {
+    userKey = userName.toLowerCase().trim();
+    loadSavedList(userKey);
+    listHeader.innerHTML = `Todo list for ${userName}`;
+  }
+};
+
+const addToLocalStorage = (todo) => {
+  const todos = getStoredTodos();
+  todos.push(todo);
+  // TODO: where is activeUser referenced?
+  // is there a better way of accessing its value?
+  // hint: avoid globals :)
+  localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
 
 const removeStoredTodo = (todo) => {
