@@ -126,7 +126,8 @@ const getStoredTodos = () => {
   if (localStorage.getItem(storageKey) === null) {
     return todos;
   }
-  return (todos = JSON.parse(localStorage.getItem(storageKey)));
+  todos = JSON.parse(localStorage.getItem(storageKey));
+  return todos;
 };
 
 // Event Listeners
