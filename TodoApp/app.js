@@ -112,9 +112,10 @@ const changeTodoMarkLocalStorage = (todo) => {
   const todos = getStoredTodos();
   const todoText = todo.childNodes[0].innerText;
   todos
-    .filter((todo) => todo.text === todoText)
-    .forEach((todo) => {
-      todo.isComplete = !todo.isComplete;
+    .filter(({ text }) => text === todoText)
+    .forEach((t) => {
+      // eslint-disable-next-line no-param-reassign
+      t.isComplete = !t.isComplete;
     });
   localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
