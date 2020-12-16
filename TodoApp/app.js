@@ -122,8 +122,9 @@ const updateTodoTextLocalStorage = (oldText, newText) => {
 
 const getStoredTodos = () => {
   const storageKey = `${userKey}Todos`;
+  let todos = [];
   if (localStorage.getItem(storageKey) === null) {
-    return (todos = []);
+    return todos;
   }
   return (todos = JSON.parse(localStorage.getItem(storageKey)));
 };
