@@ -208,7 +208,7 @@ changeUserButton.addEventListener("click", setUser);
 filterOption.addEventListener("change", (event) => {
   const todos = todoList.childNodes;
   todos.forEach((todo) => {
-    const style = todo.style;
+    const { style } = todo;
     switch (event.target.value) {
       case "completed":
         if (todo.classList.contains("complete")) {
