@@ -62,6 +62,16 @@ const addToList = (todo) => {
   todoList.appendChild(newTodo);
 };
 
+const getStoredTodos = () => {
+  const storageKey = `${userKey}Todos`;
+  let todos = [];
+  if (localStorage.getItem(storageKey) === null) {
+    return todos;
+  }
+  todos = JSON.parse(localStorage.getItem(storageKey));
+  return todos;
+};
+
 const addToLocalStorage = (todo) => {
   const todos = getStoredTodos();
   todos.push(todo);
@@ -110,16 +120,6 @@ const changeTodoMarkLocalStorage = (todo) => {
     }
   });
   localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
-};
-
-const getStoredTodos = () => {
-  const storageKey = `${userKey}Todos`;
-  let todos = [];
-  if (localStorage.getItem(storageKey) === null) {
-    return todos;
-  }
-  todos = JSON.parse(localStorage.getItem(storageKey));
-  return todos;
 };
 
 const updateTodoTextLocalStorage = (oldText, newText) => {
