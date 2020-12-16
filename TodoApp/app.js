@@ -110,15 +110,6 @@ const changeTodoMarkLocalStorage = (todo) => {
   });
   localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
-const updateTodoTextLocalStorage = (oldText, newText) => {
-  const todos = getStoredTodos();
-  todos.filter((obj) => {
-    if (obj.text === oldTodoText) {
-      obj.text = newText;
-    }
-  });
-  localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
-};
 
 const getStoredTodos = () => {
   const storageKey = `${userKey}Todos`;
@@ -128,6 +119,17 @@ const getStoredTodos = () => {
   }
   todos = JSON.parse(localStorage.getItem(storageKey));
   return todos;
+};
+
+const updateTodoTextLocalStorage = (oldText, newText) => {
+  const todos = getStoredTodos();
+  todos.filter((obj) => {
+    let { text } = obj;
+    if (text === oldTodoText) {
+      text = newText;
+    }
+  });
+  localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
 
 // Event Listeners
