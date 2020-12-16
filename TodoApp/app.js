@@ -101,10 +101,11 @@ const changeTodoMarkLocalStorage = (todo) => {
   todoText = todo.childNodes[0].innerText;
   todos.filter((obj) => {
     if (obj.text === todoText) {
-      if (obj.isComplete === true) {
-        obj.isComplete = false;
+      let { isComplete } = obj;
+      if (isComplete === true) {
+        isComplete = false;
       } else {
-        obj.isComplete = true;
+        isComplete = true;
       }
     }
   });
