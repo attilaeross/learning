@@ -177,11 +177,12 @@ todoList.addEventListener("click", (event) => {
 
       // disable all buttons (except Save) until user saves the todo text
       const buttons = document.getElementsByTagName("button");
-      for (let i = 0; i < buttons.length; i++) {
-        if (buttons[i].innerHTML !== "Save") {
-          buttons[i].disabled = true;
+      buttons.forEach((button) => {
+        if (button.innerHTML !== "Save") {
+          // eslint-disable-next-line no-param-reassign
+          button.disabled = true;
         }
-      }
+      });
     } else {
       todoElement.contentEditable = false;
       const newTodoText = todoElement.innerText;
