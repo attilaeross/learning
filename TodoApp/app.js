@@ -7,6 +7,8 @@ const changeUserButton = document.querySelector("button.change-user");
 const listHeader = document.querySelector("h2.list-header");
 
 // Functions
+let userKey;
+
 const getStoredTodos = () => {
   const storageKey = `${userKey}Todos`;
   let todos = [];
@@ -74,7 +76,6 @@ const loadSavedList = (userName) => {
   });
 };
 
-let userKey;
 const setUser = () => {
   // eslint-disable-next-line no-alert
   const userName = prompt(
