@@ -7,3 +7,4 @@
 - [JSON](JSON.md)
 - [Operators and precedence](operators-and-precedence.md)
 - [Classes](classes.md)
+- [Event Loop and Timers](Event-loops-and-timers.md)
