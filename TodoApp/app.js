@@ -153,7 +153,7 @@ todoList.addEventListener("click", (event) => {
   // set/mark Todo DONE / UNDONE
   if (item.classList[0] === "complete-button") {
     todo.classList.toggle("complete");
-    editButton = todo.childNodes[2];
+    const editButton = todo.childNodes[2];
 
     if (todo.classList.contains("complete")) {
       todo.isComplete = true;
