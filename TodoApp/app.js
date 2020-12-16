@@ -208,22 +208,23 @@ changeUserButton.addEventListener("click", setUser);
 filterOption.addEventListener("change", (event) => {
   const todos = todoList.childNodes;
   todos.forEach((todo) => {
+    const style = todo.style;
     switch (event.target.value) {
       case "all":
-        todo.style.display = "flex";
+        style.display = "flex";
         break;
       case "completed":
         if (todo.classList.contains("complete")) {
-          todo.style.display = "flex";
+          style.display = "flex";
         } else {
-          todo.style.display = "none";
+          style.display = "none";
         }
         break;
       case "outstanding":
         if (!todo.classList.contains("complete")) {
-          todo.style.display = "flex";
+          style.display = "flex";
         } else {
-          todo.style.display = "none";
+          style.display = "none";
         }
         break;
     }
