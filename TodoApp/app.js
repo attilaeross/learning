@@ -210,9 +210,6 @@ filterOption.addEventListener("change", (event) => {
   todos.forEach((todo) => {
     const style = todo.style;
     switch (event.target.value) {
-      case "all":
-        style.display = "flex";
-        break;
       case "completed":
         if (todo.classList.contains("complete")) {
           style.display = "flex";
@@ -226,6 +223,9 @@ filterOption.addEventListener("change", (event) => {
         } else {
           style.display = "none";
         }
+        break;
+      default:
+        style.display = "flex";
         break;
     }
   });
