@@ -124,36 +124,36 @@ const changeTodoMarkLocalStorage = (todo) => {
   localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
 };
 
-const updateTodoTextLocalStorage = (oldText, newText) => {
-  const todos = getStoredTodos();
-  todos.filter((obj) => {
-    let { text } = obj;
-    if (text === oldTodoText) {
-      text = newText;
-    }
-  });
-  localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
-};
-
-// Event Listeners
-document.addEventListener("DOMContentLoaded", setUser);
-
-addButton.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  const textInput = document.querySelector("input.new-todo");
-  const todo = {
-    text: textInput.value,
-    isComplete: false,
-  };
-  addToList(todo);
-  addToLocalStorage(todo);
-  // clear todo input value;
-  textInput.value = "";
-});
-
 let oldTodoText;
 todoList.addEventListener("click", (event) => {
+  const updateTodoTextLocalStorage = (oldText, newText) => {
+    const todos = getStoredTodos();
+    todos.filter((obj) => {
+      let { text } = obj;
+      if (text === oldTodoText) {
+        text = newText;
+      }
+    });
+    localStorage.setItem(`${userKey}Todos`, JSON.stringify(todos));
+  };
+
+  // Event Listeners
+  document.addEventListener("DOMContentLoaded", setUser);
+
+  addButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const textInput = document.querySelector("input.new-todo");
+    const todo = {
+      text: textInput.value,
+      isComplete: false,
+    };
+    addToList(todo);
+    addToLocalStorage(todo);
+    // clear todo input value;
+    textInput.value = "";
+  });
+
   const item = event.target;
   const todo = item.parentElement;
 
