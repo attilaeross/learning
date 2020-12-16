@@ -98,7 +98,7 @@ const removeStoredTodo = (todo) => {
 
 const changeTodoMarkLocalStorage = (todo) => {
   const todos = getStoredTodos();
-  todoText = todo.childNodes[0].innerText;
+  const todoText = todo.childNodes[0].innerText;
   todos.filter((obj) => {
     if (obj.text === todoText) {
       let { isComplete } = obj;
